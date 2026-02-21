@@ -1,24 +1,19 @@
 const app = require("./app");
 const { initializeDatabase } = require("./db");
-require("dotenv").config({
-  path: "./.env",
-});
 
-const PORT = process.env.PORT || 3030;
+let isInitialized = false;
 
-// Initialize database and start server
-const startServer = async () => {
+module.exports = async (req, res) => {
   try {
-    // Initialize Turso database
-    await initializeDatabase();
+    if (!isInitialized) {
+      await initializeDatabase();
+      isInitialized = true;
+      console.log("Database initialized");
+    }
 
-    app.listen(PORT, () => {
-      console.log(`Server starts serving on port http://localhost:${PORT}`);
-    });
+    return app(req, res);
   } catch (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1);
+    console.error("Error in serverless function:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-startServer();
