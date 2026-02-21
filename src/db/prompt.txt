@@ -1,0 +1,42 @@
+ok so lets start building a new project using a node.js backend.
+
+In this project i simple need to create a node.js backend for a blog website.
+
+Here are the tech stack and tools we are gona to user:
+
+we user node.js with express and after that in order to store the blog data in the database, we gonna use Turso  which is a lightweight sqllite cloud database.Basically we can use the mongodb but because we only have one blog schema so i think usign the mongodb in order to store just one blog schema becomes overkilling.So that's why we are gonna use one light weight sqllite based turso database.I hope you are aware of that. You can use the turso databse directly or even you can use any one of the popular ORM like drizzle or prisma.Feel free to use any one of the approach you like but just tell me because i need to install the libraries or packages for them also.Also tell me at the last what packages or libraried we need to install.
+
+Moving forward for the image storage we gonna use the imagekit.io services.we can also use the cloudinary but just for fun or try something new we use imagekit.io.Don't worry i provided you all the key related to the turso database and the imagekit.io in the env file.
+Here are the variable name that you can use directly:
+TURSO_URL,TURSO_KEY,IMAGEKIT_PUBLIC_KEY,IMAGEKIT_PRIVATE_KEY,IMAGEKIT_URL_ENDPOINT.
+
+After that lamme tell you about the database fields required and the edge cases:
+
+curretly our database only required one table with these fields:
+
+title,small description,author name,estimate read time in number,category (fixed =nutrition,yoga,meditation,life coaching,wellness,lifestyle), tags must an array of string,blog image.Also add created at field by your own and also send them i every endpoint response.Finally we have one more filed which is main description here is the edge case , bascially this field is converted by usign the rich text editor at the frontend.So i don't know what precausion we need to take to handle the rich text editor field because i never work with them.So you handle by your own in a professioanl way.And at last just tell me at the frontend level you want some modification like while sending the rich text editor data from the frontend is there is something special we need to do from us or not.
+
+After that here are the features that we need to build:
+
+Basically we need to create a simple 5 CRUD operation endpoints usign the express like create blog,update blog,delete blog,get all blogs(query parameter = all,nutrition,yoga,meditation,life coaching,wellness,lifestyle.),finally get individual blog details using params log_id.
+
+After that i tell you the feature of each and every endpoint:
+
+So , in the create_blog endpoint = What we want is the data are comming from the form data and we simply need to do some data validation operation and after that store that data in the turso database.One think here we need to make sure that the blog image is also comming in this formdata so we firstly need to store that image in the imagekit and after that store the url in the database.Don't worry i already implement the multer that store the data in the file and you can use that to store to imagekit.io
+
+update_blog = in this endpoint we send the blog_id as param that tells which blog we need to update.In this what we want is the form data is comming in either in the partial data fields or in all data field like either the one or two data fields are comming or the all data fields are comming and we need to updata the blog data accordingly. In this we need to make sure that if the new blog image is comming so firstly we need to delete the previous image from the imagekit.io and after that upload this and store the new image url in the database.
+
+delete_blog = comes with the blog_id params that tells which blog to delete and also make sure the image also deleted from the imagekit.io
+
+get_all = in this endpoint we are sending all the blogs to the frontend but with the queryparameter filteration like we have all for all category blogs,similary we have nutrition,yoga,meditation,life coaching,wellness,lifestyle.So we need to apply the query filteration while sending the all data.Also one more important think is no need to apply any pagiantion logic simply return all blogs data.We are explicitly handle the pagaintion at the front end.
+
+get_individual = in this endpoint we given one blog_id by using which we simple need to return the whole blog data to the frontend.
+
+Now, after all this information and instruction.I also share the coding files with you that i already write it was nothing but the routers and the dummy controllers that i already created for the 5 endpoints feel free to do changes if you feel something wrong.I also share the app.js and the index.js file in these file you clearly see that we already write some code for the razorpay integration this is not the issue the issue is we also need to write code for the database connectivity.Like we did in the mongodb.
+Because curretly we are using the turso so we need to create an connection with the turso while starting the server.Now it my intitution , it might be a case that with turso we are working with some different way.So you need to handle that also.
+Also comming to the imagekit.io you create an utility file for the add , delete operation so that we can use anywhere.
+
+
+
+ 
+
